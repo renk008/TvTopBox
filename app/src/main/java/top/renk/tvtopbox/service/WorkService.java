@@ -15,13 +15,19 @@ import android.util.Log;
  */
 
 public class WorkService extends Service {
-    @Nullable
+
+    @Override
+    public void onCreate() {
+
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
     public void getAllMedia(){
+
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         Cursor c = this.getContentResolver().query(uri, null, null, null,
                 MediaStore.Video.Media.DEFAULT_SORT_ORDER);
@@ -37,5 +43,11 @@ public class WorkService extends Service {
             }
             c.close();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }
