@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="414dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -39,20 +40,21 @@
         android:layout_marginBottom="-10dp"
         android:background="@drawable/item_image_bg"
         android:scaleType="fitXY"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tv_focus"
         android:layout_width="363dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/im_rl"
+        android:layout_alignStart="@id/im_rl"
         android:layout_below="@id/im_rl"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="3dp"
         android:ellipsize="marquee"
         android:gravity="center"
         android:textColor="@drawable/text_color_selector"
-        android:textSize="30px"
+        android:textSize="30sp"
         android:singleLine="true" />
 
 </RelativeLayout>

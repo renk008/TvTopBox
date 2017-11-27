@@ -26,7 +26,6 @@ public class HomeTvAdapter extends CustomRecyclerView.CustomAdapter<Integer> {
         return new GalleryViewHolder(view);
     }
 
-    @NonNull
     @Override
     protected int onSetItemLayout() {
         return R.layout.item;

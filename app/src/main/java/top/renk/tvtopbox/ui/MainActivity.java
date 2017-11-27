@@ -115,4 +115,6 @@ public class MainActivity extends AppCompatActivity {
             mRightArr.setVisibility(View.VISIBLE);
         }
     }
+
+
 }
