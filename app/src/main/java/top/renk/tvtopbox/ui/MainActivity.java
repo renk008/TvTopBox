@@ -1,5 +1,7 @@
 package top.renk.tvtopbox.ui;
 
+import android.content.Context;
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +18,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.wch.ch34xuartdriver.CH34xUARTDriver;
 import top.renk.tvtopbox.R;
 import top.renk.tvtopbox.adapter.HomeTvAdapter;
+import top.renk.tvtopbox.app.MyApplication;
 import top.renk.tvtopbox.widget.CustomRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         //设置布局管理器
-        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(LINE_NUM, StaggeredGridLayoutManager.HORIZONTAL);
+        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(LINE_NUM,
+                StaggeredGridLayoutManager.HORIZONTAL);
         mLayoutManager.setAutoMeasureEnabled(true);
         mListData = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -53,16 +59,23 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        totalWidth= mRecyclerView.getMeasuredWidth();
+
+        MyApplication.setDriver(new CH34xUARTDriver((UsbManager) getSystemService(Context.USB_SERVICE),
+                this, MyApplication.ACTION_USB_PERMISSION));
+
     }
 
     private void initListener() {
+        mAdapter.setOnItemClickListener(new MyOnItemClickListener());
         mRecyclerView.addOnScrollListener(new MyOnScrollListener());
     }
 
 
     @OnClick({R.id.list_arr_left, R.id.list_arr_right})
     public void onViewClicked(View view) {
+        if (totalWidth < 1){
+            totalWidth = mRecyclerView.getMeasuredWidth();
+        }
         switch (view.getId()) {
             case R.id.list_arr_left:
                 if (mRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
@@ -89,6 +102,17 @@ public class MainActivity extends AppCompatActivity {
             //在滚动的时候处理箭头的状态
             setLeftArrStatus();
             setRightArrStatus();
+        }
+    }
+
+    private class MyOnItemClickListener implements HomeTvAdapter.OnItemClickListener {
+        @Override
+        public void onItemClick(View view, int position) {
+            Toast.makeText(view.getContext(), "click:" + position, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onItemLongClick(View view, int position) {
         }
     }
 

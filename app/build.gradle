@@ -20,12 +20,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:leanback-v17:26.1.0'
-
     implementation "com.squareup.retrofit2:retrofit:$RETROFIT2_VERSION"
     implementation "com.squareup.retrofit2:converter-gson:$RETROFIT2_VERSION"
     implementation "com.squareup.retrofit2:converter-scalars:$RETROFIT2_VERSION"
@@ -43,9 +43,8 @@ dependencies {
     implementation 'com.github.nekocode.rxlifecycle:rxlifecycle:1.1'
     implementation 'com.github.nekocode.rxlifecycle:rxlifecycle-compact:1.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     implementation 'com.shuyu:GSYVideoPlayer:2.1.1'
+    implementation files('libs/CH34xUARTDriver.jar')
 }
