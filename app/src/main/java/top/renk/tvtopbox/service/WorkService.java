@@ -9,16 +9,26 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import top.renk.tvtopbox.rxbus.MySubscribe;
+import top.renk.tvtopbox.rxbus.RxBus;
+import top.renk.tvtopbox.thread.ReadThread;
+
 /**
  * Created by renk on 2017/11/27.
- *
  */
 
 public class WorkService extends Service {
 
     @Override
     public void onCreate() {
+        RxBus.get().register(this);
+    }
 
+    @MySubscribe(code = 100)
+    public void getReadStart(boolean isOpen) {
+        if (isOpen) {
+            new ReadThread().setOpen(true).start();
+        }
     }
 
     @Override
@@ -26,7 +36,7 @@ public class WorkService extends Service {
         return null;
     }
 
-    public void getAllMedia(){
+    public void getAllMedia() {
 
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         Cursor c = this.getContentResolver().query(uri, null, null, null,
@@ -48,6 +58,6 @@ public class WorkService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        RxBus.get().unRegister(this);
     }
 }

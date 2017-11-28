@@ -3,14 +3,12 @@ package top.renk.tvtopbox.app;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.hardware.usb.UsbManager;
 import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
-
 import cn.wch.ch34xuartdriver.CH34xUARTDriver;
 
 /**
  * Created by renk on 2017/11/27.
+ *
  */
 
 public class MyApplication extends Application {
