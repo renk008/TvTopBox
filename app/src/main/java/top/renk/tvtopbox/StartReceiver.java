@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import top.renk.tvtopbox.service.WorkService;
-import top.renk.tvtopbox.ui.MainActivity;
 
 /**
  * Created by renk on 2017/11/27.

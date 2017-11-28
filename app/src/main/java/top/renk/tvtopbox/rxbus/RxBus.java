@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +26,11 @@ public class RxBus {
     public static final String LOG_BUS = "RXBUS_LOG";
     private static volatile RxBus defaultInstance;
 
-    private Map<Class, List<Disposable>> subscriptionsByEventType = new ArrayMap<>();
+    private Map<Class, List<Disposable>> subscriptionsByEventType = new HashMap<>();
 
-    private Map<Object, List<Class>> eventTypesBySubscriber = new ArrayMap<>();
+    private Map<Object, List<Class>> eventTypesBySubscriber = new HashMap<>();
 
-    private Map<Class, List<SubscriberMethod>> subscriberMethodByEventType = new ArrayMap<>();
+    private Map<Class, List<SubscriberMethod>> subscriberMethodByEventType = new HashMap<>();
 
     private final Subject<Object> bus;
 

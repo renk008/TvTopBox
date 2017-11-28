@@ -40,11 +40,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity
-            android:name=".ui.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="landscape">
-        </activity>
         <service
             android:name=".service.WorkService"
             android:permission="renk.china.top"
