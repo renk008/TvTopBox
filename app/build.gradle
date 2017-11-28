@@ -21,6 +21,11 @@ android {
         }
     }
     buildToolsVersion '26.0.2'
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {

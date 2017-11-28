@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
-
         MyApplication.setDriver(new CH34xUARTDriver((UsbManager) getSystemService(Context.USB_SERVICE),
                 this, MyApplication.ACTION_USB_PERMISSION));
         if (!MyApplication.getDriver().UsbFeatureSupported())// 判断系统是否支持USB HOST

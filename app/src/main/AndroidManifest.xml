@@ -13,11 +13,16 @@
         android:required="false" />
 
     <uses-permission android:name="renk.china.top" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 请求访问网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 请求访问网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
     <uses-permission
         android:name="android.permission.INSTALL_PACKAGES"
         tools:ignore="ProtectedPermissions" />
@@ -37,14 +42,9 @@
         tools:replace="android:allowBackup">
         <activity
             android:name=".ui.MainActivity"
-            android:screenOrientation="landscape" android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape">
         </activity>
-
         <service
             android:name=".service.WorkService"
             android:permission="renk.china.top"
@@ -53,7 +53,6 @@
                 <action android:name="top.renk.tvtopbox.service.WorkService" />
             </intent-filter>
         </service>
-
         <receiver
             android:name=".StartReceiver"
             android:enabled="true"
@@ -62,8 +61,16 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".ui.PlayActivity"></activity>
+        <activity
+            android:name=".ui.PlayActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
