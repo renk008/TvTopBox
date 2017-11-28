@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,16 +34,7 @@ import top.renk.tvtopbox.widget.CustomRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int LINE_NUM = 3;
-    @BindView(R.id.list_arr_left)
-    Button mLeftArr;
-    @BindView(R.id.list_arr_recycler_view)
-    CustomRecyclerView mRecyclerView;
-    @BindView(R.id.list_arr_right)
-    Button mRightArr;
-    private List<Integer> mListData;
-    private HomeTvAdapter mAdapter;
-    private int totalWidth;
+
     private byte[] writeBuffer;
     private byte[] readBuffer;
     private int retval;
@@ -51,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         // 保持常亮的屏幕的状态
@@ -61,18 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        //设置布局管理器
-        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(LINE_NUM,
-                StaggeredGridLayoutManager.HORIZONTAL);
-        mLayoutManager.setAutoMeasureEnabled(true);
-        mListData = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            mListData.add(i);
-        }
-        mAdapter = new HomeTvAdapter(this, mListData);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+
 
         MyApplication.setDriver(new CH34xUARTDriver((UsbManager) getSystemService(Context.USB_SERVICE),
                 this, MyApplication.ACTION_USB_PERMISSION));
@@ -96,13 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
         writeBuffer = new byte[512];
         readBuffer = new byte[512];
-
-
     }
 
     private void initListener() {
-        mAdapter.setOnItemClickListener(new MyOnItemClickListener());
-        mRecyclerView.addOnScrollListener(new MyOnScrollListener());
         retval = MyApplication.getDriver().ResumeUsbList();
 
         if (!isOpen) {
@@ -122,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 isOpen = true;
                 //开启线程读
-                RxBus.get().send(100,isOpen);
+                RxBus.get().send(1000,isOpen);
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setIcon(R.mipmap.ic_launcher);
@@ -151,74 +129,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.list_arr_left, R.id.list_arr_right})
-    public void onViewClicked(View view) {
-        if (totalWidth < 1) {
-            totalWidth = mRecyclerView.getMeasuredWidth();
-        }
-        switch (view.getId()) {
-            case R.id.list_arr_left:
-                if (mRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
-                    mRecyclerView.smoothScrollBy(-totalWidth, 0);
-                }
-                break;
-            case R.id.list_arr_right:
-                if (mRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
-                    mRecyclerView.smoothScrollBy(totalWidth, 0);
-                }
-                break;
-        }
-    }
-
-    private class MyOnScrollListener extends RecyclerView.OnScrollListener {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            //在滚动的时候处理箭头的状态
-            setLeftArrStatus();
-            setRightArrStatus();
-        }
-    }
-
-    private class MyOnItemClickListener implements HomeTvAdapter.OnItemClickListener {
-        @Override
-        public void onItemClick(View view, int position) {
-            Toast.makeText(view.getContext(), "click:" + position, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onItemLongClick(View view, int position) {
-        }
-    }
-
-    /**
-     * 设置左侧箭头的状态
-     */
-    private void setLeftArrStatus() {
-        if (mRecyclerView.isFirstItemVisible()) {
-            Log.e("renk", "fist can visit");
-            mLeftArr.setVisibility(View.INVISIBLE);
-        } else {
-            mLeftArr.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * 设置右侧箭头的状态
-     */
-    private void setRightArrStatus() {
-        if (mRecyclerView.isLastItemVisible(LINE_NUM, mListData.size())) {
-            Log.e("renk", "last can visit");
-            mRightArr.setVisibility(View.INVISIBLE);
-        } else {
-            mRightArr.setVisibility(View.VISIBLE);
-        }
-    }
 
 
 }

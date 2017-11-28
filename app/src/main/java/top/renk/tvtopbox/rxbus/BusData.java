@@ -3,11 +3,9 @@ package top.renk.tvtopbox.rxbus;
 
 class BusData {
     private String id;
-    private String status;
     BusData() {}
-    public BusData(String id, String status) {
+    public BusData(String id) {
         this.id = id;
-        this.status = status;
     }
 
     public String getId() {
@@ -18,11 +16,4 @@ class BusData {
         this.id = id;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

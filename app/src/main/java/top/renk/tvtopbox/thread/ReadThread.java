@@ -4,7 +4,8 @@ import top.renk.tvtopbox.app.MyApplication;
 import top.renk.tvtopbox.rxbus.RxBus;
 
 /**
- * Created by pcdalao on 2017/11/28.
+ * Created by renk on 2017/11/28.
+ *
  */
 
 public class ReadThread extends Thread {
@@ -25,12 +26,12 @@ public class ReadThread extends Thread {
         super.run();
         byte[] buffer = new byte[4096];
 
-        while (true) {
+        while (isOpen) {
             int length = MyApplication.getDriver().ReadData(buffer, 4096);
             if (length > 0) {
                 //String recv = new String(buffer, 0, length);
                 String string = toHexString(buffer, length);
-                RxBus.get().send(9527, string);
+                RxBus.get().send(2000, string);
             }
         }
     }
